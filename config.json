@@ -1,0 +1,15 @@
+{
+  "name": "OAutoScroll Background",
+  "guid": "asc.{2c3dfbcf-c7b2-48e5-befa-8843d04437a5}",
+  "version": "1.0.0",
+  "variations": [
+    {
+      "description": "OAutoScroll",
+      "url": "index.html",
+      "icons": "resources/icon.svg",
+      "isViewer": true,
+      "EditorsSupport": ["pdf"],
+      "type": "background"
+    }
+  ]
+}
