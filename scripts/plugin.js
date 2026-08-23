@@ -21,7 +21,7 @@ function startTempScrollSaver() {
         let tempSavedView = plugStore.getView(true);
 
         if (tempSavedView === null || isViewDifferent(currentView, tempSavedView)) {
-            plugStore.saveView(currentView);
+            plugStore.saveView(currentView, true);
         }
     }, 1000);
 }
