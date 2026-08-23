@@ -14,29 +14,38 @@ function startTempScrollSaver() {
     setInterval(() => {
         if (!plugStore.getSaveByCloseFlag()) return;
 
-        const currentY = editorCtrl.getScrollY();
+        const currentView = editorCtrl.getView();
 
-        if (currentY === null) return;
+        if (currentView === null) return;
 
-        let tempSavedY = plugStore.getTempScroll();
+        let tempSavedView = plugStore.getView(true);
 
-        if (tempSavedY === null || tempSavedY !== currentY) {
-            plugStore.saveTempScroll(currentY);
+        if (tempSavedView === null || isViewDifferent(currentView, tempSavedView)) {
+            plugStore.saveView(currentView);
         }
     }, 1000);
 }
 
+function isViewDifferent(view1, view2) {
+    // Если один из них null, а другой нет — они не равны
+    if (!view1 || !view2) return view1 !== view2;
+
+    // Сравниваем поля напрямую
+    return view1.x !== view2.x ||
+        view1.y !== view2.y ||
+        view1.zoom !== view2.zoom;
+}
+
 function tryRestoreScroll() {
     if (plugStore.getMoveByOpenFlag() && !plugStore.isFirstOpen()) {
-        let savedY = plugStore.getScroll();
-        let tempSavedY = plugStore.getTempScroll();
+        let savedView = plugStore.getView();
+        let tempSavedView = plugStore.getView(true);
 
         // При загрузке плагина, если есть временный скролл, то он становится основным
-        if (tempSavedY !== null && tempSavedY !== savedY && plugStore.getSaveByCloseFlag()) {            
-            savedY = tempSavedY;
-            plugStore.saveScroll(savedY);
+        if (tempSavedView !== null && isViewDifferent(savedView, tempSavedView) && plugStore.getSaveByCloseFlag()) {
+            savedView = tempSavedView;
+            plugStore.saveView(savedView);
         }
-        editorCtrl.moveScroll(savedY);
-
+        editorCtrl.setView(savedView);
     }
 }
