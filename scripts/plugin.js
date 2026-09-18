@@ -19,7 +19,6 @@ function startTempScrollSaver() {
         if (currentView === null) return;
 
         let tempSavedView = plugStore.getView(true);
-        console.log("Current view:", currentView, "Temp saved view:", tempSavedView);
 
         if (tempSavedView === null || isViewDifferent(currentView, tempSavedView)) {
             plugStore.saveView(currentView, true);
