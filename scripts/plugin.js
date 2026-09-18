@@ -19,6 +19,7 @@ function startTempScrollSaver() {
         if (currentView === null) return;
 
         let tempSavedView = plugStore.getView(true);
+        console.log("Current view:", currentView, "Temp saved view:", tempSavedView);
 
         if (tempSavedView === null || isViewDifferent(currentView, tempSavedView)) {
             plugStore.saveView(currentView, true);
@@ -37,7 +38,7 @@ function isViewDifferent(view1, view2) {
 }
 
 function tryRestoreScroll() {
-    if (plugStore.getMoveByOpenFlag() && !plugStore.isFirstOpen()) {
+    if (plugStore.getMoveByOpenFlag()) {
         let savedView = plugStore.getView();
         let tempSavedView = plugStore.getView(true);
 
@@ -46,6 +47,9 @@ function tryRestoreScroll() {
             savedView = tempSavedView;
             plugStore.saveView(savedView);
         }
+
+        if (savedView === null) return;
+
         editorCtrl.setView(savedView);
     }
 }
